@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "652356468536",
+    "project_id": "pastifyhubstores",
+    "storage_bucket": "pastifyhubstores.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652356468536:android:58cdcfbd255f530a580bcd",
+        "android_client_info": {
+          "package_name": "pastifyhubstores.example.pastifyhubstores"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXyPW55yWrJGE3UF3iumMzt00tNuU2s4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
