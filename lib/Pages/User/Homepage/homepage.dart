@@ -16,7 +16,7 @@ class _HomepageState extends State<Homepage> {
     Center(child: Text('Categories Page')),
     Center(child: Text('Carts Page')),
     Center(child: Text('Wishlist Page')),
-    Center(child: Text('Accounts Page')),
+    Center(child: Text('Accounts Pages')),
   ];
 
   @override
