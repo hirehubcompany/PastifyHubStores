@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pastifyhubstores/utils/app%20color.dart';
 import 'authentication/landing.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug, // For testing
+    appleProvider: AppleProvider.debug,
+  );
   runApp(PastifyHubStores());
 }
 
@@ -13,6 +18,7 @@ class PastifyHubStores extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'PastifyHubStores',
       theme: ThemeData(
         primaryColor: AppColors.primary,
@@ -42,7 +48,7 @@ class PastifyHubStores extends StatelessWidget {
           primary: AppColors.primary,
           secondary: AppColors.secondary,
           error: AppColors.error,
-          background: AppColors.backgroundLight,
+          surface: AppColors.backgroundLight,
         ),
       ),
       darkTheme: ThemeData(
@@ -73,7 +79,7 @@ class PastifyHubStores extends StatelessWidget {
           primary: AppColors.primary,
           secondary: AppColors.secondary,
           error: AppColors.error,
-          background: AppColors.backgroundDark,
+          surface: AppColors.backgroundDark,
         ),
       ),
       themeMode: ThemeMode.system, // Auto-switch based on device settings

@@ -39,9 +39,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
     setState(() => _isLoading = true);
     try {
+      // Create user in Firebase Auth
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
 
+      // Add user data to Firestore with extra hidden fields
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user!.uid)
@@ -51,7 +53,15 @@ class _RegisterPageState extends State<RegisterPage> {
         'phone': _phone,
         'createdAt': Timestamp.now(),
         'uid': userCredential.user!.uid,
-        'role': 'Seller', // default for now
+        'role': 'Seller',
+
+        // Hidden default fields
+        'profileImage': 'https://via.placeholder.com/150', // default placeholder
+        'address': 'Not set yet',
+        'city': 'Not set yet',
+        'defaultPaymentMethod': 'Mobile Money',
+        'notificationEnabled': true,
+        'loyaltyPoints': 0
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -67,6 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() => _isLoading = false);
     }
   }
+
 
   Widget _buildTextField(
       String label,

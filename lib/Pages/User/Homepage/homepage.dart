@@ -1,5 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pastifyhubstores/test.dart';
+
+import '../accounts/homepage.dart';
+import '../cart/carts.dart';
+import '../cart/homepage.dart';
+import '../category/homepage.dart';
+import 'hometab/hometab.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -9,19 +17,63 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final CartService _cartService = CartService();
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    Center(child: Text('Categories Page')),
-    Center(child: Text('Categories Page')),
-    Center(child: Text('Carts Page')),
-    Center(child: Text('Wishlist Page')),
-    Center(child: Text('Accounts Pages')),
-  ];
 
   @override
   Widget build(BuildContext context) {
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+
+  final List<Widget> _pages = const [
+
+
+
+    Hometab(),
+    Categories(),
+
+    Carts(),
+
+    Accounts(),
+
+
+  ];
+
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("PastiHub Stores"),
+
+        actions: [
+          if (userId != null)
+            StreamBuilder<QuerySnapshot>(
+              stream: _cartService.getCartStream(userId),
+              builder: (context, snapshot) {
+                int count = snapshot.data?.docs.length ?? 0;
+                return Stack(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.shopping_cart),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const Carts()));
+                      },
+                    ),
+                    if (count > 0)
+                      Positioned(
+                        right: 6,
+                        top: 6,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                          child: Text('$count', style: const TextStyle(color: Colors.white, fontSize: 12)),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
+        ],
+      ),
       backgroundColor: Colors.grey[100],
       body: _pages[_currentIndex],
 
@@ -66,7 +118,6 @@ class _HomepageState extends State<Homepage> {
               _navBarItem(Icons.home, "Home", 0),
               _navBarItem(Icons.category, "Categories", 1),
               _navBarItem(Icons.shopping_cart, "Carts", 2),
-              _navBarItem(Icons.favorite, "Wishlist", 3),
               _navBarItem(Icons.account_circle, "Accounts", 4),
             ],
           ),
